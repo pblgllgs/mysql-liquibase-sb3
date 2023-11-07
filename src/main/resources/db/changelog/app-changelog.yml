@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      comment: 'create users table'
+      id: 1
+      author: 'pblgllgs'
+      changes:
+        - sql:
+            sql: "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT,email VARCHAR(255),password VARCHAR(255),createdAt TIMESTAMP);"
+  - changeSet:
+      comment: 'insert values into users table'
+      id: 2
+      author: 'pblgllgs'
+      changes:
+        - sql:
+            sql: "INSERT INTO users (email, password, createdAt) VALUES 
+            ('user1@example.com', 'password1', CURRENT_TIMESTAMP),
+            ('user2@example.com', 'password2', CURRENT_TIMESTAMP), 
+            ('user3@example.com', 'password3', CURRENT_TIMESTAMP), 
+            ('user4@example.com', 'password4', CURRENT_TIMESTAMP), 
+            ('user5@example.com', 'password5', CURRENT_TIMESTAMP);"
+  - changeSet:
+      comment: 'add username column'
+      id: 3
+      author: 'pblgllgs'
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  type: varchar(10)
+  - changeSet:
+      comment: 'change name column createdAt to created_at'
+      id: 4
+      author: 'pblgllgs'
+      changes:
+        - renameColumn:
+            columnDataType: TIMESTAMP
+            tableName: users
+            oldColumnName: createdAt
+            newColumnName: created_at
+  - changeSet:
+      comment: 'update null values'
+      id: 5
+      author: 'pblgllgs'
+      changes:
+        - sql:
+            sql: "UPDATE users SET username = SUBSTRING(MD5(RAND()) FROM 1 FOR 10) WHERE username IS NULL;"
